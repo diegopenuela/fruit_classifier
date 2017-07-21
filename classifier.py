@@ -143,4 +143,24 @@ plt.ylabel('accuracy')
 plt.scatter(k_range, scores)
 plt.xticks([0,5,10,15,20]);
 
+### How sensitive is k-NN classification accuracy to the train/test split proportion?
+t = [0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]
+
+knn = KNeighborsClassifier(n_neighbors = 5)
+
+plt.figure()
+
+for s in t:
+
+    scores = []
+    for i in range(1,1000):
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 1-s)
+        knn.fit(X_train, y_train)
+        scores.append(knn.score(X_test, y_test))
+    plt.plot(s, np.mean(scores), 'bo')
+
+plt.xlabel('Training set proportion (%)')
+plt.ylabel('accuracy');
+
+
 print ("success...")
