@@ -1,6 +1,9 @@
 ### Import required modules and load data file
 
 #%matplotlib notebook
+import matplotlib
+matplotlib.use('Agg')
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
