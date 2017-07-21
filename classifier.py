@@ -29,7 +29,7 @@ cmap = cm.get_cmap('gnuplot')
 scatter = pd.scatter_matrix(X_train, c= y_train, marker = 'o', s=40, hist_kwds={'bins':15}, figsize=(9,9), cmap=cmap)
 
 print(type (cmap))
-dir(cmap)
+print(dir(cmap))
 
 print(type (scatter))
-dir(scatter)
+print(dir(scatter))
