@@ -12,18 +12,15 @@ import graphviz
 from sklearn.tree import export_graphviz
 import matplotlib.patches as mpatches
 
-# Meshgrid expanation https://stackoverflow.com/questions/36013063/what-is-purpose-of-meshgrid-in-python
-
 def load_crime_dataset():
     # Communities and Crime dataset for regression
     # https://archive.ics.uci.edu/ml/datasets/Communities+and+Crime+Unnormalized
 
     crime = pd.read_table('CommViolPredUnnormalizedData.txt', sep=',', na_values='?')
-    crime.head()
     # remove features with poor coverage or lower relevance, and keep ViolentCrimesPerPop target column
-    columns_to_keep = [5, 6] + list(range(11,26)) + list(range(32, 103)) + [145]
+    columns_to_keep = [5, 6] + list(range(11,26)) + list(range(32, 103)) + [145]  
     crime = crime.ix[:,columns_to_keep].dropna()
-    crime.head()
+
     X_crime = crime.ix[:,range(0,88)]
     y_crime = crime['ViolentCrimesPerPop']
 
@@ -38,8 +35,8 @@ def plot_decision_tree(clf, feature_names, class_names):
     # import sys; sys.executable
     # !{sys.executable} -m pip install pydotplus
 
-    export_graphviz(clf, out_file="readonly/adspy_temp.dot", feature_names=feature_names, class_names=class_names, filled = True, impurity = False)
-    with open("readonly/adspy_temp.dot") as f:
+    export_graphviz(clf, out_file="adspy_temp.dot", feature_names=feature_names, class_names=class_names, filled = True, impurity = False)
+    with open("adspy_temp.dot") as f:
         dot_graph = f.read()
     # Alternate method using pydotplus, if installed.
     # graph = pydotplus.graphviz.graph_from_dot_data(dot_graph)
@@ -96,12 +93,8 @@ def plot_class_regions_for_classifier_subplot(clf, X, y, X_test, y_test, title, 
     x_max = X[:, 0].max()
     y_min = X[:, 1].min()
     y_max = X[:, 1].max()
-    x2, y2 = numpy.meshgrid(numpy.arange(x_min - k, x_max + k, h), numpy.arange(y_min - k, y_max + k, h))
-    # numpy.c_ Translates slice objects to concatenation along the second axis
-    # e.g. np.c_[np.array([[1,2,3]]), 0, 0, np.array([[4,5,6]])]
-    # ravel() Returns a contiguous flattened array.
-    # x = np.array([[1, 2, 3], [4, 5, 6]])
-    # np.ravel(x) = [1 2 3 4 5 6]
+    x2, y2 = numpy.meshgrid(numpy.arange(x_min-k, x_max+k, h), numpy.arange(y_min-k, y_max+k, h))
+
     P = clf.predict(numpy.c_[x2.ravel(), y2.ravel()])
     P = P.reshape(x2.shape)
 
@@ -147,11 +140,7 @@ def plot_class_regions_for_classifier(clf, X, y, X_test=None, y_test=None, title
     y_min = X[:, 1].min()
     y_max = X[:, 1].max()
     x2, y2 = numpy.meshgrid(numpy.arange(x_min-k, x_max+k, h), numpy.arange(y_min-k, y_max+k, h))
-    # numpy.c_ Translates slice objects to concatenation along the second axis
-    # e.g. np.c_[np.array([[1,2,3]]), 0, 0, np.array([[4,5,6]])]
-    # ravel() Returns a contiguous flattened array.
-    # x = np.array([[1, 2, 3], [4, 5, 6]])
-    # np.ravel(x) = [1 2 3 4 5 6]
+
     P = clf.predict(numpy.c_[x2.ravel(), y2.ravel()])
     P = P.reshape(x2.shape)
     plt.figure()
@@ -178,16 +167,10 @@ def plot_class_regions_for_classifier(clf, X, y, X_test=None, y_test=None, title
     if (title is not None):
         plt.title(title)
     plt.show()
-
+    
 def plot_fruit_knn(X, y, n_neighbors, weights):
-    if isinstance(X, (pd.DataFrame,)):
-        X_mat = X[['height', 'width']].as_matrix()
-        y_mat = y.as_matrix()
-    elif isinstance(X, (np.ndarray,)):
-        # When X was scaled is already a matrix
-        X_mat = X_mat[:, :2]
-        y_mat = y.as_matrix()
-        print(X_mat)
+    X_mat = X[['height', 'width']].as_matrix()
+    y_mat = y.as_matrix()
 
     # Create color maps
     cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA', '#AAAAFF','#AFAFAF'])
@@ -198,20 +181,14 @@ def plot_fruit_knn(X, y, n_neighbors, weights):
 
     # Plot the decision boundary by assigning a color in the color map
     # to each mesh point.
-
+    
     mesh_step_size = .01  # step size in the mesh
     plot_symbol_size = 50
-
+    
     x_min, x_max = X_mat[:, 0].min() - 1, X_mat[:, 0].max() + 1
     y_min, y_max = X_mat[:, 1].min() - 1, X_mat[:, 1].max() + 1
     xx, yy = numpy.meshgrid(numpy.arange(x_min, x_max, mesh_step_size),
                          numpy.arange(y_min, y_max, mesh_step_size))
-    # numpy.c_ Translates slice objects to concatenation along the second axis
-    # e.g. np.c_[np.array([[1,2,3]]), 0, 0, np.array([[4,5,6]])]
-    # ravel() Returns a contiguous flattened array.
-    # x = np.array([[1, 2, 3], [4, 5, 6]])
-    # np.ravel(x) = [1 2 3 4 5 6]
-
     Z = clf.predict(numpy.c_[xx.ravel(), yy.ravel()])
 
     # Put the result into a color plot
@@ -230,10 +207,10 @@ def plot_fruit_knn(X, y, n_neighbors, weights):
     patch3 = mpatches.Patch(color='#AFAFAF', label='lemon')
     plt.legend(handles=[patch0, patch1, patch2, patch3])
 
-
+        
     plt.xlabel('height (cm)')
     plt.ylabel('width (cm)')
-
+    
     plt.show()
 
 def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
@@ -249,20 +226,14 @@ def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
 
     # Plot the decision boundary by assigning a color in the color map
     # to each mesh point.
-
+    
     mesh_step_size = .01  # step size in the mesh
     plot_symbol_size = 50
-
+    
     x_min, x_max = X_mat[:, 0].min() - 1, X_mat[:, 0].max() + 1
     y_min, y_max = X_mat[:, 1].min() - 1, X_mat[:, 1].max() + 1
     xx, yy = numpy.meshgrid(numpy.arange(x_min, x_max, mesh_step_size),
                          numpy.arange(y_min, y_max, mesh_step_size))
-    # numpy.c_ Translates slice objects to concatenation along the second axis
-    # e.g. np.c_[np.array([[1,2,3]]), 0, 0, np.array([[4,5,6]])]
-    # ravel() Returns a contiguous flattened array.
-    # x = np.array([[1, 2, 3], [4, 5, 6]])
-    # np.ravel(x) = [1 2 3 4 5 6]
-
     Z = clf.predict(numpy.c_[xx.ravel(), yy.ravel()])
 
     # Put the result into a color plot
