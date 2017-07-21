@@ -14,7 +14,7 @@ fruits.head()
 
 # create a mapping from fruit label value to fruit name to make results easier to interpret
 lookup_fruit_name = dict(zip(fruits.fruit_label.unique(), fruits.fruit_name.unique()))   
-lookup_fruit_name
+print (ookup_fruit_name)
 
 ### Examining the data
 
@@ -27,3 +27,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
 cmap = cm.get_cmap('gnuplot')
 scatter = pd.scatter_matrix(X_train, c= y_train, marker = 'o', s=40, hist_kwds={'bins':15}, figsize=(9,9), cmap=cmap)
+
+type (cmap)
+type (scatter)
