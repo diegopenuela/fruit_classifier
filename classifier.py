@@ -128,5 +128,19 @@ print (lookup_fruit_name[fruit_prediction[0]])
 
 plot_fruit_knn(X_train, y_train, 5, 'uniform')   # we choose 5 nearest neighbors
 
+### How sensitive is k-NN classification accuracy to the choice of the 'k' parameter?
+k_range = range(1,20)
+scores = []
+
+for k in k_range:
+    knn = KNeighborsClassifier(n_neighbors = k)
+    knn.fit(X_train, y_train)
+    scores.append(knn.score(X_test, y_test))
+
+plt.figure()
+plt.xlabel('k')
+plt.ylabel('accuracy')
+plt.scatter(k_range, scores)
+plt.xticks([0,5,10,15,20]);
 
 print ("success...")
