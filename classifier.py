@@ -35,3 +35,5 @@ print(cmap)
 print(type (scatter))
 print(dir(scatter))
 print(scatter)
+
+plt.show()
