@@ -29,10 +29,4 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 cmap = cm.get_cmap('gnuplot')
 scatter = pd.scatter_matrix(X_train, c= y_train, marker = 'o', s=40, hist_kwds={'bins':15}, figsize=(9,9), cmap=cmap)
 
-print(type (cmap))
-print(dir(cmap))
-print(cmap)
-
-print(type (scatter))
-print(dir(scatter))
-print(scatter)
+scatter.plot()
