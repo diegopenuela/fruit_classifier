@@ -14,7 +14,7 @@ fruits.head()
 
 # create a mapping from fruit label value to fruit name to make results easier to interpret
 lookup_fruit_name = dict(zip(fruits.fruit_label.unique(), fruits.fruit_name.unique()))   
-print (ookup_fruit_name)
+print (lookup_fruit_name)
 
 ### Examining the data
 
