@@ -69,4 +69,10 @@ print (lookup_fruit_name[fruit_prediction[0]])
 fruit_prediction = knn.predict([[100, 6.3, 8.5]])
 print (lookup_fruit_name[fruit_prediction[0]])
 
+### Plot the decision boundaries of the k-NN classifier
+from adspy_shared_utilities import plot_fruit_knn
+
+plot_fruit_knn(X_train, y_train, 5, 'uniform')   # we choose 5 nearest neighbors
+
+
 print ("success...")
