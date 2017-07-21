@@ -37,7 +37,7 @@ ax.set_xlabel('width')
 ax.set_ylabel('height')
 ax.set_zlabel('color_score')
 
-plt.show()
+#plt.show()
 
 ### Create train-test split
 # For this example, we use the mass, width, and height features of each fruit instance
@@ -46,3 +46,17 @@ y = fruits['fruit_label']
 
 # default is 75% / 25% train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
+
+
+### Create classifier object
+from sklearn.neighbors import KNeighborsClassifier
+
+knn = KNeighborsClassifier(n_neighbors = 5)
+
+
+### Train the classifier (fit the estimator) using the training data
+knn.fit(X_train, y_train)
+
+### Estimate the accuracy of the classifier on future data, using the test data
+knn.score(X_test, y_test)
+
