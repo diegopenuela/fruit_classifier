@@ -157,7 +157,7 @@ for s in t:
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 1-s)
         knn.fit(X_train, y_train)
         scores.append(knn.score(X_test, y_test))
-    plt.plot(s, np.mean(scores), 'bo')
+    plt.plot(s, numpy.mean(scores), 'bo')
 
 plt.xlabel('Training set proportion (%)')
 plt.ylabel('accuracy');
