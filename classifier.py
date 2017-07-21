@@ -30,6 +30,8 @@ scatter = pd.scatter_matrix(X_train, c= y_train, marker = 'o', s=40, hist_kwds={
 
 print(type (cmap))
 print(dir(cmap))
+print(cmap)
 
 print(type (scatter))
 print(dir(scatter))
+print(scatter)
